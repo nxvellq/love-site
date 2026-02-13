@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Love 💖</title>
     <link rel="icon" type="image/png" href="https://media.tenor.com/YHUBvqVV3SQAAAAi/قلب-وردي.gif">
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Montserrat:wght@400;700&display=swap"
+        rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -14,6 +15,7 @@
             box-sizing: border-box;
             font-family: 'Montserrat', Arial, sans-serif;
         }
+
         body {
             height: 100vh;
             display: flex;
@@ -23,12 +25,16 @@
             overflow: hidden;
             position: relative;
         }
-        body::before, body::after {
+
+
+        body::before,
+        body::after {
             content: "";
             position: absolute;
             z-index: 0;
             pointer-events: none;
         }
+
         body::before {
             left: 12%;
             top: 7%;
@@ -38,6 +44,7 @@
             filter: blur(40px);
             opacity: 0.45;
         }
+
         body::after {
             right: 9%;
             bottom: 8%;
@@ -47,6 +54,29 @@
             filter: blur(60px);
             opacity: 0.30;
         }
+
+        .bg-heart {
+            position: absolute;
+            bottom: -40px;
+            font-size: 20px;
+            animation: floatUp linear infinite;
+            opacity: 0.7;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes floatUp {
+            from {
+                transform: translateY(0);
+                opacity: 0.7;
+            }
+
+            to {
+                transform: translateY(-110vh);
+                opacity: 0;
+            }
+        }
+
         .screen {
             position: absolute;
             display: flex;
@@ -57,106 +87,17 @@
             transition: opacity 0.6s;
             z-index: 2;
         }
+
         .hidden {
             opacity: 0;
             pointer-events: none;
         }
-        /* --- START: Новый красивый конверт --- */
-        .envelope {
-            width: 260px;
-            height: 180px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 15px 40px rgba(255, 76, 139, 0.18), 0 2px 14px #f178a726;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            padding-bottom: 16px;
-        }
-        .envelope::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #ff4c8b;
-            clip-path: polygon(0 0, 50% 66%, 100% 0);
-            border-radius: 15px 15px 0 0;
-            z-index: 1;
-            box-shadow: 0 14px 20px #ff4c8b12;
-        }
-        .envelope span {
-            position: relative;
-            z-index: 2;
-            font-weight: bold;
-            padding: 0px 10px;
-            border: none;
-            background-color: white;
-            border-radius: 25px;
-            margin-bottom: 4px;
-        }
-        .envelope .envelope-heart {
-            position: absolute;
-            left: 50%;
-            top: 16px;
-            transform: translateX(-50%);
-            font-size: 30px;
-            z-index: 3;
-            pointer-events: none;
-            filter: drop-shadow(0 2px 8px #ffd6e7cc);
-        }
-        /* --- END: Новый красивый конверт --- */
-        button {
-            padding: 13px 32px;
-            border: none;
-            border-radius: 45px;
-            cursor: pointer;
-            font-size: 15px;
-            margin: 12px 0 7px 0;
-            transition: 0.24s transform, 0.13s box-shadow;
-            box-shadow: 0 2px 8px rgba(255, 76, 139, 0.10);
-            font-family: 'Montserrat', Arial, sans-serif;
-        }
-        .pink {
-            background: #ff4c8b linear-gradient(92deg, #ff4c8b 85%, #ff90c2 100%);
-            color: white;
-        }
-        .gray {
-            background: #f5f2f7;
-            color: #9e4e74;
-        }
-        button:hover {
-            transform: scale(1.08);
-            animation: heartbeat 0.7s;
-        }
-        @keyframes heartbeat {
-            0%, 100% {transform: scale(1);}
-            14% {transform: scale(1.16);}
-            28% {transform: scale(1);}
-            42% {transform: scale(1.12);}
-            70% {transform: scale(1);}
-        }
-        /* Остальное оставь как раньше */
-        .bg-heart {
-            position: absolute;
-            bottom: -40px;
-            font-size: 20px;
-            animation: floatUp linear infinite;
-            opacity: 0.7;
-            pointer-events: none;
-            z-index: 1;
-        }
-        @keyframes floatUp {
-            from { transform: translateY(0); opacity: 0.7;}
-            to { transform: translateY(-110vh); opacity: 0;}
-        }
+
         .card {
             background: white;
             padding: 44px 30px 38px 30px;
             border-radius: 27px;
-            box-shadow: 0 20px 50px rgba(255, 76, 139, 0.10), 0 2px 24px rgba(0,0,0,0.11);
+            box-shadow: 0 20px 50px rgba(255, 76, 139, 0.10), 0 2px 24px rgba(0, 0, 0, 0.11);
             text-align: center;
             min-width: 290px;
             max-width: 90vw;
@@ -165,24 +106,217 @@
             transform: translateY(35px) scale(0.97);
             animation: fade-in-card 1.1s 0.15s forwards;
         }
-        .screen:not(.hidden) .card {animation: fade-in-card 1.1s 0.15s forwards;}
+
+        .screen:not(.hidden) .card {
+            animation: fade-in-card 1.1s 0.15s forwards;
+        }
+
         @keyframes fade-in-card {
-            from {opacity: 0; transform: translateY(35px) scale(0.97);}
-            to {opacity: 1; transform: translateY(0) scale(1);}
+            from {
+                opacity: 0;
+                transform: translateY(35px) scale(0.97);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .envelope {
+            width: 260px;
+            height: 180px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 15px 40px rgba(255, 76, 139, 0.16);
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding-bottom: 17px;
+            transition: box-shadow 0.3s;
+        }
+
+        .envelope:hover {
+            box-shadow: 0 24px 65px rgba(255, 76, 139, 0.30);
+        }
+
+        .envelope::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ff4c8b;
+            clip-path: polygon(0 0, 50% 60%, 100% 0);
+            border-radius: 12px 12px 0 0;
+            z-index: 1;
+        }
+
+        .envelope span {
+            position: relative;
+            z-index: 2;
+            font-weight: bold;
+            padding: 0px 10px;
+            border: none;
+            cursor: pointer;
+            background: none;
+        }
+
+        button {
+            padding: 13px 32px;
+            border: none;
+            border-radius: 45px;
+            cursor: pointer;
+            font-size: 15px;
+            margin: 12px;
+            transition: 0.24s transform, 0.13s box-shadow;
+            box-shadow: 0 2px 8px rgba(255, 76, 139, 0.10);
+            font-family: 'Montserrat', Arial, sans-serif;
+        }
+
+        .pink {
+            background: white linear-gradient(92deg, #ff4c8b 85%, #ff90c2 100%);
+            color: white;
+        }
+
+        .gray {
+            background: #f5f2f7;
+            color: #9e4e74;
+        }
+
+        button:hover {
+            transform: scale(1.08);
+        }
+
+        button.pink:hover,
+        .envelope:active span>button {
+            animation: heartbeat 0.7s;
+        }
+
+        @keyframes heartbeat {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            14% {
+                transform: scale(1.16);
+            }
+
+            28% {
+                transform: scale(1);
+            }
+
+            42% {
+                transform: scale(1.12);
+            }
+
+            70% {
+                transform: scale(1);
+            }
+        }
+
+
+        h2 {
+            font-family: 'Pacifico', cursive;
+            color: #ff4c8b;
+            font-weight: normal;
+            font-size: 2.1em;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+            margin-top: 2px;
+            text-shadow: 0 1px 0 #fff, 0 2px 10px #ffb6d9a2;
+        }
+
+        .circle {
+            width: 170px;
+            height: 170px;
+            background: #ffe6f0;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 23px auto 26px auto;
+            overflow: hidden;
+            box-shadow: 0 0 64px 16px #ffd6e7, 0 7px 25px rgba(255, 76, 139, 0.09);
+            position: relative;
+        }
+
+        .circle img {
+            width: 130px;
+            filter: drop-shadow(0 4px 10px #fff4fa);
+        }
+
+        .explosion {
+            position: absolute;
+            font-size: 20px;
+            pointer-events: none;
+            animation: explode 1s forwards cubic-bezier(0.55, 1, 0.63, 0.99);
+            z-index: 99;
+        }
+
+        @keyframes explode {
+            from {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+
+            to {
+                transform: translate(var(--x), var(--y)) scale(1.8);
+                opacity: 0;
+            }
+        }
+
+
+        .fadein-text {
+            opacity: 0;
+            transition: opacity 1.1s;
+        }
+
+
+        @media (max-width: 560px) {
+
+            .card,
+            .circle {
+                min-width: unset;
+                width: 98vw;
+                padding: 16px 0 12px 0;
+            }
+
+            .card {
+                padding: 25px 4vw 22px 4vw;
+            }
+
+            .circle {
+                width: 120px;
+                height: 120px;
+            }
+
+            .circle img {
+                width: 89px;
+            }
+
+            .envelope {
+                width: 90vw;
+                min-width: 198px;
+                max-width: 310px;
+            }
         }
     </style>
 </head>
+
 <body>
-    <!-- Первый экран: КРАСИВЫЙ КОНВЕРТ! -->
+
     <div class="screen" id="s1">
         <div class="envelope" onclick="next(1)">
-            <div class="envelope-heart">💌</div>
-            <span>
-                <button class="pink" id="openBtn1">Далее 💖</button>
-            </span>
+            <span class="pink"><button class="pink" id="openBtn1">Далее 💖</button></span>
         </div>
     </div>
-    <!-- Второй экран -->
+
     <div class="screen hidden" id="s2">
         <div class="card">
             <h2>Хочешь прочитать?? 💖</h2>
@@ -193,7 +327,7 @@
             <button class="gray" id="noBtn">Не-а 😈</button>
         </div>
     </div>
-    <!-- Третий и четвертый экраны оставь по своему коду -->
+
     <div class="screen hidden" id="s3">
         <div class="card">
             <h2>❤️ С Днём Святого Валентина! ❤️</h2>
@@ -203,6 +337,7 @@
             <button class="pink" id="openBtn3" onclick="next(3)">Далее!! ^w^</button>
         </div>
     </div>
+
     <div class="screen hidden" id="s4">
         <div class="card">
             <h2>Я тебя люблю 💖</h2>
@@ -214,8 +349,9 @@
             </p>
         </div>
     </div>
+
     <script>
-        // Сердечки красивыми волнами
+
         const heartsArray = ["💗", "💖", "💘", "💝", "❤️", "💕", "💞", "💓"];
         function bgHeart() {
             const h = document.createElement("div");
@@ -230,14 +366,14 @@
         }
         setInterval(bgHeart, 420);
 
-        // Переход между экранами
+
         function next(n) {
             document.getElementById("s" + n).classList.add("hidden");
             document.getElementById("s" + (n + 1)).classList.remove("hidden");
             if (n + 1 === 4) showLoveText();
         }
 
-        // Кнопка "не-а 😈"
+
         const noBtn = document.getElementById("noBtn");
         noBtn.addEventListener("mouseover", () => {
             const w = noBtn.offsetWidth, h = noBtn.offsetHeight;
@@ -249,14 +385,14 @@
             noBtn.style.top = y + "px";
         });
 
-        // Взрыв сердечек при клике по кнопке
+
         function explodeHearts(el) {
             const rect = el.getBoundingClientRect();
             const cx = rect.left + rect.width / 2;
             const cy = rect.top + rect.height / 2;
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 28; i++) {
                 const heart = document.createElement("div");
-                heart.className = "bg-heart";
+                heart.className = "explosion";
                 heart.innerHTML = heartsArray[Math.floor(Math.random() * heartsArray.length)];
                 heart.style.left = cx + "px";
                 heart.style.top = cy + "px";
@@ -264,23 +400,23 @@
                 const dist = 64 + Math.random() * 120;
                 heart.style.setProperty("--x", Math.cos(angle) * dist + "px");
                 heart.style.setProperty("--y", Math.sin(angle) * dist + "px");
-                heart.style.animation = "explode 1s forwards";
                 document.body.appendChild(heart);
-                setTimeout(() => heart.remove(), 900);
+                setTimeout(() => heart.remove(), 1000);
             }
         }
-        document.getElementById("openBtn1").addEventListener("click", function(e) {
+        document.getElementById("openBtn1").addEventListener("click", function () {
             explodeHearts(this);
             next(1);
         });
-        document.getElementById("openBtn2").addEventListener("click", function() {
+        document.getElementById("openBtn2").addEventListener("click", function () {
             explodeHearts(this);
             next(2);
         });
-        document.getElementById("openBtn3").addEventListener("click", function() {
+        document.getElementById("openBtn3").addEventListener("click", function () {
             explodeHearts(this);
             next(3);
         });
+
 
         function showLoveText() {
             const el = document.getElementById("loveText");
@@ -298,14 +434,7 @@
                 }
             })();
         }
-
-        // Анимация для взрыва сердечек (добавляем в head только раз!)
-        if(!document.getElementById('explode-style')){
-            let style = document.createElement('style');
-            style.id = 'explode-style';
-            style.innerHTML = "@keyframes explode{from{opacity:1;transform:translate(0,0) scale(1);}to{opacity:0;transform:translate(var(--x,0),var(--y,0)) scale(1.7);}}";
-            document.head.appendChild(style);
-        }
     </script>
 </body>
+
 </html>
