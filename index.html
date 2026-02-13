@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love 💖</title>
+    <link rel="icon" type="image/png" href="https://media.tenor.com/YHUBvqVV3SQAAAAi/قلب-وردي.gif">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffd6e7, #ffeef5);
+            overflow: hidden;
+            position: relative;
+        }
+
+        
+        .bg-heart {
+            position: absolute;
+            bottom: -20px;
+            font-size: 18px;
+            animation: floatUp linear infinite;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        @keyframes floatUp {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(-110vh);
+                opacity: 0;
+            }
+        }
+
+        
+        .screen {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            transition: 0.5s;
+        }
+
+        .hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+
+        
+        .envelope {
+            width: 260px;
+            height: 180px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding-bottom: 15px;
+        }
+
+        .envelope::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ff4c8b;
+            clip-path: polygon(0 0, 50% 60%, 100% 0);
+            border-radius: 12px 12px 0 0;
+        }
+
+        .envelope span {
+            position: relative;
+            z-index: 2;
+            font-weight: bold;
+            padding: 0px 10px;
+            border: none;
+            cursor: pointer;
+            background-color: white;
+        }
+
+       
+        button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 10px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+        }
+
+        .pink {
+            background: #ff4c8b;
+            color: white;
+        }
+
+        .gray {
+            background: #eee;
+        }
+
+        
+        .circle {
+            width: 170px;
+            height: 170px;
+            background: #ffe6f0;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+
+        .circle img {
+            width: 130px;
+        }
+
+        
+        .explosion {
+            position: absolute;
+            font-size: 18px;
+            pointer-events: none;
+            animation: explode 1s forwards;
+        }
+
+        @keyframes explode {
+            from {
+                transform: translate(0, 0);
+            }
+
+            to {
+                transform: translate(var(--x), var(--y));
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    
+    <div class="screen" id="s1">
+        <div class="envelope" onclick="next(1)">
+            <span class="pink"><button class="pink" id="openBtn1">Далее 💖</button></span>
+        </div>
+    </div>
+
+    
+    <div class="screen hidden" id="s2">
+        <div class="card">
+            <h2>Хочешь прочитать?? 💖</h2>
+
+            <div class="circle">
+                <img src="https://media.tenor.com/WlJsOVX2lysAAAAj/cat-tongue-cat.gif">
+            </div>
+
+            <button class="pink" id="openBtn2">Открыть 💖</button>
+            <button class="gray" id="noBtn">Не-а 😈</button>
+
+        </div>
+    </div>
+
+    
+    <div class="screen hidden" id="s3">
+        <div class="card">
+            <h2>❤️ С Днём Святого Валентина! ❤️</h2>
+
+            <div class="circle">
+                <img src="https://media.tenor.com/W7lIFrltn54AAAAi/hello-kiyty-cute.gif">
+            </div>
+
+            <button class="pink" id="openBtn3" onclick="next(3)">Далее!! ^w^</button>
+        </div>
+    </div>
+
+    
+    <div class="screen hidden" id="s4">
+        <div class="card">
+            <h2>Я тебя люблю 💖</h2>
+            <p>Ты — самое тёплое и прекрасное,
+                что произошло в моей жизни.
+                Я правда очень сильно тебя люблю.
+                Спасибо что ты есть 🥺💗</p>
+        </div>
+    </div>
+
+    <script>
+
+        
+        function bgHeart() {
+            const h = document.createElement("div");
+            h.className = "bg-heart";
+            h.innerHTML = "💗";
+            h.style.left = Math.random() * 100 + "vw";
+            h.style.animationDuration = (5 + Math.random() * 5) + "s";
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 10000);
+        }
+        setInterval(bgHeart, 400);
+
+        
+        function next(n) {
+            document.getElementById("s" + n).classList.add("hidden");
+            document.getElementById("s" + (n + 1)).classList.remove("hidden");
+        }
+
+        
+        const noBtn = document.getElementById("noBtn");
+
+        noBtn.addEventListener("mouseover", () => {
+
+            const w = noBtn.offsetWidth;
+            const h = noBtn.offsetHeight;
+
+            const maxX = window.innerWidth - w;
+            const maxY = window.innerHeight - h;
+
+            const x = Math.random() * maxX;
+            const y = Math.random() * maxY;
+
+            noBtn.style.position = "fixed";
+            noBtn.style.left = x + "px";
+            noBtn.style.top = y + "px";
+
+        });
+
+        
+        const openBtn1 = document.getElementById("openBtn1");
+
+        openBtn1.addEventListener("click", (e) => {
+
+            const rect = openBtn1.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+
+            for (let i = 0; i < 25; i++) {
+                const heart = document.createElement("div");
+                heart.className = "explosion";
+                heart.innerHTML = "💗";
+                heart.style.left = cx + "px";
+                heart.style.top = cy + "px";
+
+                const angle = Math.random() * 2 * Math.PI;
+                const dist = 80 + Math.random() * 120;
+
+                heart.style.setProperty("--x", Math.cos(angle) * dist + "px");
+                heart.style.setProperty("--y", Math.sin(angle) * dist + "px");
+
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 1000);
+            }
+
+            next(1);
+
+        });
+
+        const openBtn2 = document.getElementById("openBtn2");
+
+        openBtn2.addEventListener("click", (e) => {
+
+            const rect = openBtn2.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+
+            for (let i = 0; i < 25; i++) {
+                const heart = document.createElement("div");
+                heart.className = "explosion";
+                heart.innerHTML = "💗";
+                heart.style.left = cx + "px";
+                heart.style.top = cy + "px";
+
+                const angle = Math.random() * 2 * Math.PI;
+                const dist = 80 + Math.random() * 120;
+
+                heart.style.setProperty("--x", Math.cos(angle) * dist + "px");
+                heart.style.setProperty("--y", Math.sin(angle) * dist + "px");
+
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 1000);
+            }
+
+            next(2);
+
+        });
+
+        const openBtn3 = document.getElementById("openBtn3");
+
+        openBtn3.addEventListener("click", (e) => {
+
+            const rect = openBtn3.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+
+            for (let i = 0; i < 25; i++) {
+                const heart = document.createElement("div");
+                heart.className = "explosion";
+                heart.innerHTML = "💗";
+                heart.style.left = cx + "px";
+                heart.style.top = cy + "px";
+
+                const angle = Math.random() * 2 * Math.PI;
+                const dist = 80 + Math.random() * 120;
+
+                heart.style.setProperty("--x", Math.cos(angle) * dist + "px");
+                heart.style.setProperty("--y", Math.sin(angle) * dist + "px");
+
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 1000);
+            }
+
+            next(3);
+
+        });
+
+    </script>
+
+</body>
+
+</html>
