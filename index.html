@@ -376,13 +376,19 @@
 
         const noBtn = document.getElementById("noBtn");
         noBtn.addEventListener("mouseover", () => {
-            const w = noBtn.offsetWidth, h = noBtn.offsetHeight;
-            const maxX = window.innerWidth - w - 14, maxY = window.innerHeight - h - 14;
+            const w = noBtn.offsetWidth;
+            const h = noBtn.offsetHeight;
+
+            const maxX = window.innerWidth - w;
+            const maxY = window.innerHeight - h;
+
             const x = Math.random() * maxX;
             const y = Math.random() * maxY;
+
             noBtn.style.position = "fixed";
             noBtn.style.left = x + "px";
             noBtn.style.top = y + "px";
+
         });
 
 
