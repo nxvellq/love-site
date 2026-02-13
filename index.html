@@ -1,426 +1,311 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Love 💖</title>
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      min-height: 100vh;
-      min-width: 100vw;
-      box-sizing: border-box;
-      margin: 0;
-      background: linear-gradient(135deg, #ffd6e7, #ffeef5 80%);
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    /* Свечение на фоне */
-    body::before, body::after {
-      content: "";
-      position: absolute;
-      z-index: 0;
-      pointer-events: none;
-    }
-    body::before {
-      left: 10%;
-      top: 5%;
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, #ffd6e7 60%, transparent 100%);
-      filter: blur(40px);
-      opacity: 0.4;
-    }
-    body::after {
-      right: 10%;
-      bottom: 8%;
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle, #ffb6d9 65%, transparent 100%);
-      filter: blur(60px);
-      opacity: 0.3;
-    }
-
-    .screen {
-      position: absolute;
-      left: 0; top: 0;
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1;
-      transition: opacity 0.5s;
-    }
-    .hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    /*ЕНВЕЛОП*/
-    .envelope-outer {
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      min-width: 340px;
-      min-height: 290px;
-      perspective: 900px;
-      background: none;
-      z-index: 2;
-    }
-    .envelope {
-      width: 280px;
-      height: 190px;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      cursor: pointer;
-      background: none;
-      z-index: 2;
-    }
-    .envelope-flap {
-      width: 100%;
-      height: 120px;
-      background: #ff4c8b;
-      position: absolute;
-      top: 0; left: 0;
-      clip-path: polygon(0 0, 50% 100%, 100% 0);
-      border-radius: 12px 12px 0 0;
-      z-index: 4;
-      transform-origin: top center;
-      transition: transform 0.7s cubic-bezier(.55,1.8,.36,1) 0s;
-      box-shadow: 0 12px 36px -8px #ff4c8ba2;
-    }
-    .envelope.opened .envelope-flap {
-      transform: rotateX(-103deg);
-      transition-delay: 0.07s;
-    }
-
-    .envelope-front {
-      position: absolute;
-      left: 0; top: 45px;
-      width: 100%;
-      height: 145px;
-      background: #fff;
-      border-radius: 0 0 15px 15px;
-      z-index: 2;
-      box-shadow: 0 7px 32px rgba(255,76,139,0.13);
-      pointer-events: none;
-    }
-    .envelope-shadow {
-      position: absolute;
-      left: 0; top: 45px;
-      width: 100%;
-      height: 145px;
-      background: linear-gradient(to bottom,transparent 60%,#ffb6d933 100%);
-      border-radius: 0 0 16px 16px;
-      z-index: 3;
-      pointer-events: none;
-      opacity: 0.45;
-      mix-blend-mode: multiply;
-    }
-
-    .envelope-note {
-      position: absolute;
-      top: 44%;
-      left: 50%;
-      transform: translate(-50%, 0);
-      font-size: 18px;
-      color: #ff4c8b;
-      font-family: 'Pacifico', cursive;
-      opacity: 0.9;
-      text-shadow: 0 0 7px #fff;
-      transition: opacity 0.27s;
-      pointer-events: none;
-      user-select: none;
-      z-index: 8;
-    }
-    .envelope.opened .envelope-note {
-      opacity: 0;
-      transition-delay: 0.13s;
-    }
-
-    /* Внутренняя валентинка (бумажка) */
-    .envelope-letter {
-      position: absolute;
-      width: 234px;
-      height: 108px;
-      left: 50%;
-      bottom: 22px;
-      transform: translateX(-50%) translateY(50px) scaleY(0.7);
-      border-radius: 15px 15px 20px 20px/16px 16px 20px 20px;
-      background: #fff7fb;
-      box-shadow: 0 10px 40px #f178a715;
-      border: 2px solid #ffc5e9;
-      color: #d23267;
-      font-family: 'Pacifico',cursive;
-      font-size: 22px;
-      letter-spacing: .2px;
-      text-align: center;
-      padding-top: 24px;
-      padding-bottom: 12px;
-      opacity: 0;
-      z-index: 5;
-      transition:
-        transform 0.67s cubic-bezier(.55,1.8,.36,1),
-        opacity 0.37s cubic-bezier(.4,1.8,.75,1),
-        box-shadow 0.22s;
-      pointer-events: none;
-    }
-    .envelope.opened .envelope-letter {
-      transform: translateX(-50%) translateY(0) scaleY(1.0);
-      opacity: 1;
-      transition-delay: 0.22s,0.22s,0s;
-      pointer-events: auto;
-    }
-
-    .envelope-heart {
-      position: absolute;
-      left: 50%;
-      top: 20px;
-      transform: translateX(-50%);
-      font-size: 32px;
-      filter: drop-shadow(0 5px 12px #ff4c8b33);
-      z-index: 16;
-      pointer-events: none;
-      opacity: 1;
-      transition: opacity 0.23s;
-    }
-    .envelope.opened .envelope-heart { opacity: 0; }
-
-    .envelope-button {
-      opacity: 0;
-      transition: opacity 0.4s 0.42s;
-      text-align: center;
-      margin-top: 14px;
-      pointer-events: none;
-    }
-    .envelope.opened .envelope-button {
-      opacity: 1;
-      pointer-events: auto;
-    }
-    .envelope-button button {
-      padding: 13px 34px;
-      border: none;
-      border-radius: 45px;
-      cursor: pointer;
-      font-size: 16px;
-      background: #ff4c8b linear-gradient(90deg, #ff4c8b 85%, #ff90c2 100%);
-      color: white;
-      margin-top: 7px;
-      margin-bottom: 10px;
-      font-family: 'Montserrat', Arial, sans-serif;
-      box-shadow: 0 4px 16px rgba(255, 76, 139, 0.14);
-      transition: transform 0.21s;
-    }
-    .envelope-button button:hover {transform:scale(1.10); animation:heartbeat 0.8s;}
-    @keyframes heartbeat {
-      0%,100%{transform:scale(1);}
-      22%{transform:scale(1.17);}
-      47%{transform:scale(0.97);}
-      67%{transform:scale(1.10);}
-    }
-
-    @media (max-width: 430px) {
-      .envelope-outer{min-width: unset; width: 96vw;}
-      .envelope{width:85vw; min-width:185px;max-width:360px;}
-      .envelope-flap, .envelope-front, .envelope-shadow{height:42vw;min-height:64px;max-height:110px;}
-      .envelope-letter{font-size:17px;width:85vw;max-width:214px;}
-    }
-
-    /* Остальной стиль — можешь оставить от своего второгo экрана! */
-    .bg-heart {position: absolute; bottom: -40px; font-size: 20px; animation: floatUp linear infinite; opacity: 0.7; pointer-events: none; z-index: 0;}
-    @keyframes floatUp {
-      from {transform: translateY(0); opacity: 0.7;}
-      to {transform: translateY(-110vh); opacity: 0;}
-    }
-    .card {
-      background: white;
-      padding: 44px 30px 38px 30px;
-      border-radius: 27px;
-      box-shadow: 0 20px 50px rgba(255, 76, 139, 0.10), 0 2px 24px rgba(0,0,0,0.11);
-      text-align: center;
-      min-width: 290px;
-      max-width: 90vw;
-      max-width: 370px;
-      opacity: 0;
-      transform: translateY(35px) scale(0.97);
-      animation: fade-in-card 1.1s 0.15s forwards;
-    }
-    .screen:not(.hidden) .card {animation: fade-in-card 1.1s 0.15s forwards;}
-    @keyframes fade-in-card {
-      from {opacity: 0; transform: translateY(35px) scale(0.97);}
-      to {opacity: 1; transform: translateY(0) scale(1);}
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love 💖</title>
+    <link rel="icon" type="image/png" href="https://media.tenor.com/YHUBvqVV3SQAAAAi/قلب-وردي.gif">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', Arial, sans-serif;
+        }
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffd6e7, #ffeef5 80%);
+            overflow: hidden;
+            position: relative;
+        }
+        body::before, body::after {
+            content: "";
+            position: absolute;
+            z-index: 0;
+            pointer-events: none;
+        }
+        body::before {
+            left: 12%;
+            top: 7%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #ffd6e7 60%, transparent 100%);
+            filter: blur(40px);
+            opacity: 0.45;
+        }
+        body::after {
+            right: 9%;
+            bottom: 8%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, #ffb6d9 65%, transparent 100%);
+            filter: blur(60px);
+            opacity: 0.30;
+        }
+        .screen {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            transition: opacity 0.6s;
+            z-index: 2;
+        }
+        .hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        /* --- START: Новый красивый конверт --- */
+        .envelope {
+            width: 260px;
+            height: 180px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(255, 76, 139, 0.18), 0 2px 14px #f178a726;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding-bottom: 16px;
+        }
+        .envelope::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ff4c8b;
+            clip-path: polygon(0 0, 50% 66%, 100% 0);
+            border-radius: 15px 15px 0 0;
+            z-index: 1;
+            box-shadow: 0 14px 20px #ff4c8b12;
+        }
+        .envelope span {
+            position: relative;
+            z-index: 2;
+            font-weight: bold;
+            padding: 0px 10px;
+            border: none;
+            background-color: white;
+            border-radius: 25px;
+            margin-bottom: 4px;
+        }
+        .envelope .envelope-heart {
+            position: absolute;
+            left: 50%;
+            top: 16px;
+            transform: translateX(-50%);
+            font-size: 30px;
+            z-index: 3;
+            pointer-events: none;
+            filter: drop-shadow(0 2px 8px #ffd6e7cc);
+        }
+        /* --- END: Новый красивый конверт --- */
+        button {
+            padding: 13px 32px;
+            border: none;
+            border-radius: 45px;
+            cursor: pointer;
+            font-size: 15px;
+            margin: 12px 0 7px 0;
+            transition: 0.24s transform, 0.13s box-shadow;
+            box-shadow: 0 2px 8px rgba(255, 76, 139, 0.10);
+            font-family: 'Montserrat', Arial, sans-serif;
+        }
+        .pink {
+            background: #ff4c8b linear-gradient(92deg, #ff4c8b 85%, #ff90c2 100%);
+            color: white;
+        }
+        .gray {
+            background: #f5f2f7;
+            color: #9e4e74;
+        }
+        button:hover {
+            transform: scale(1.08);
+            animation: heartbeat 0.7s;
+        }
+        @keyframes heartbeat {
+            0%, 100% {transform: scale(1);}
+            14% {transform: scale(1.16);}
+            28% {transform: scale(1);}
+            42% {transform: scale(1.12);}
+            70% {transform: scale(1);}
+        }
+        /* Остальное оставь как раньше */
+        .bg-heart {
+            position: absolute;
+            bottom: -40px;
+            font-size: 20px;
+            animation: floatUp linear infinite;
+            opacity: 0.7;
+            pointer-events: none;
+            z-index: 1;
+        }
+        @keyframes floatUp {
+            from { transform: translateY(0); opacity: 0.7;}
+            to { transform: translateY(-110vh); opacity: 0;}
+        }
+        .card {
+            background: white;
+            padding: 44px 30px 38px 30px;
+            border-radius: 27px;
+            box-shadow: 0 20px 50px rgba(255, 76, 139, 0.10), 0 2px 24px rgba(0,0,0,0.11);
+            text-align: center;
+            min-width: 290px;
+            max-width: 90vw;
+            max-width: 370px;
+            opacity: 0;
+            transform: translateY(35px) scale(0.97);
+            animation: fade-in-card 1.1s 0.15s forwards;
+        }
+        .screen:not(.hidden) .card {animation: fade-in-card 1.1s 0.15s forwards;}
+        @keyframes fade-in-card {
+            from {opacity: 0; transform: translateY(35px) scale(0.97);}
+            to {opacity: 1; transform: translateY(0) scale(1);}
+        }
+    </style>
 </head>
 <body>
-  <!-- Первый экран -->
-  <div class="screen" id="s1">
-    <div class="envelope-outer">
-      <div class="envelope" id="envelope">
-        <div class="envelope-flap"></div>
-        <div class="envelope-front"></div>
-        <div class="envelope-shadow"></div>
-        <div class="envelope-heart">💌</div>
-        <div class="envelope-note">Нажми на конверт, чтобы открыть</div>
-        <div class="envelope-letter">
-          <span style="color:#ff5797">С днём любви!</span><br>
-          <span style="font-weight:normal; color:#b73a79;font-size:16px;">Ты готов(a) раскрыть<br> моё послание?</span>
-          <div class="envelope-button">
-            <button class="pink" id="openBtn1" type="button">Далее 💖</button>
-          </div>
+    <!-- Первый экран: КРАСИВЫЙ КОНВЕРТ! -->
+    <div class="screen" id="s1">
+        <div class="envelope" onclick="next(1)">
+            <div class="envelope-heart">💌</div>
+            <span>
+                <button class="pink" id="openBtn1">Далее 💖</button>
+            </span>
         </div>
-      </div>
     </div>
-  </div>
-  <!-- Второй экран (можешь заменить на свои) -->
-  <div class="screen hidden" id="s2">
-    <div class="card">
-      <h2>Хочешь прочитать?? 💖</h2>
-      <div class="circle">
-        <img src="https://media.tenor.com/WlJsOVX2lysAAAAj/cat-tongue-cat.gif">
-      </div>
-      <button class="pink" id="openBtn2">Открыть 💖</button>
-      <button class="gray" id="noBtn">Не-а 😈</button>
+    <!-- Второй экран -->
+    <div class="screen hidden" id="s2">
+        <div class="card">
+            <h2>Хочешь прочитать?? 💖</h2>
+            <div class="circle">
+                <img src="https://media.tenor.com/WlJsOVX2lysAAAAj/cat-tongue-cat.gif">
+            </div>
+            <button class="pink" id="openBtn2">Открыть 💖</button>
+            <button class="gray" id="noBtn">Не-а 😈</button>
+        </div>
     </div>
-  </div>
-  <div class="screen hidden" id="s3">
-    <div class="card">
-      <h2>❤️ С Днём Святого Валентина! ❤️</h2>
-      <div class="circle">
-        <img src="https://media.tenor.com/W7lIFrltn54AAAAi/hello-kiyty-cute.gif">
-      </div>
-      <button class="pink" id="openBtn3" onclick="next(3)">Далее!! ^w^</button>
+    <!-- Третий и четвертый экраны оставь по своему коду -->
+    <div class="screen hidden" id="s3">
+        <div class="card">
+            <h2>❤️ С Днём Святого Валентина! ❤️</h2>
+            <div class="circle">
+                <img src="https://media.tenor.com/W7lIFrltn54AAAAi/hello-kiyty-cute.gif">
+            </div>
+            <button class="pink" id="openBtn3" onclick="next(3)">Далее!! ^w^</button>
+        </div>
     </div>
-  </div>
-  <div class="screen hidden" id="s4">
-    <div class="card">
-      <h2>Я тебя люблю 💖</h2>
-      <p class="fadein-text" id="loveText">
-        Ты — самое тёплое и прекрасное,<br>
-        что произошло в моей жизни.<br>
-        Я правда очень сильно тебя люблю.<br>
-        Спасибо, что ты есть 🥺💗
-      </p>
+    <div class="screen hidden" id="s4">
+        <div class="card">
+            <h2>Я тебя люблю 💖</h2>
+            <p class="fadein-text" id="loveText">
+                Ты — самое тёплое и прекрасное,<br>
+                что произошло в моей жизни.<br>
+                Я правда очень сильно тебя люблю.<br>
+                Спасибо, что ты есть 🥺💗
+            </p>
+        </div>
     </div>
-  </div>
-  <script>
-    // Красивая анимация конверта
-    const envelope = document.getElementById('envelope');
-    const envelopeBtn = document.getElementById('openBtn1');
-    let isEnvelopeOpened = false;
-
-    envelope.addEventListener('click', function(e){
-      if (isEnvelopeOpened) return;
-      envelope.classList.add('opened');
-      isEnvelopeOpened = true;
-    });
-
-    envelopeBtn.addEventListener('click', function(e){
-      e.stopPropagation();
-      explodeHearts(this);
-      setTimeout(()=>next(1), 450);
-    });
-
-    // Сердечки
-    const heartsArray = ["💗", "💖", "💘", "💝", "❤️", "💕", "💞", "💓"];
-    function bgHeart() {
-      const h = document.createElement("div");
-      h.className = "bg-heart";
-      h.innerHTML = heartsArray[Math.floor(Math.random() * heartsArray.length)];
-      h.style.left = Math.random() * 100 + "vw";
-      h.style.animationDuration = (6 + Math.random() * 5) + "s";
-      h.style.fontSize = (16 + Math.random() * 23) + "px";
-      h.style.opacity = 0.4 + Math.random() * 0.56;
-      document.body.appendChild(h);
-      setTimeout(() => h.remove(), 12000);
-    }
-    setInterval(bgHeart, 460);
-
-    // Экраны — как прежде
-    function next(n) {
-      document.getElementById("s" + n).classList.add("hidden");
-      document.getElementById("s" + (n + 1)).classList.remove("hidden");
-      if (n + 1 === 4) showLoveText();
-    }
-
-    // Кнопка "не-а 😈"
-    const noBtn = document.getElementById("noBtn");
-    noBtn.addEventListener("mouseover", () => {
-      const w = noBtn.offsetWidth, h = noBtn.offsetHeight;
-      const maxX = window.innerWidth - w - 14, maxY = window.innerHeight - h - 14;
-      const x = Math.random() * maxX;
-      const y = Math.random() * maxY;
-      noBtn.style.position = "fixed";
-      noBtn.style.left = x + "px";
-      noBtn.style.top = y + "px";
-    });
-
-    // Взрыв сердечек
-    function explodeHearts(el) {
-      const rect = el.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      for (let i = 0; i < 28; i++) {
-        const heart = document.createElement("div");
-        heart.className = "bg-heart";
-        heart.innerHTML = heartsArray[Math.floor(Math.random() * heartsArray.length)];
-        heart.style.left = cx + "px";
-        heart.style.top = cy + "px";
-        const angle = Math.random() * 2 * Math.PI;
-        const dist = 60 + Math.random() * 120;
-        heart.style.setProperty("--x", Math.cos(angle) * dist + "px");
-        heart.style.setProperty("--y", Math.sin(angle) * dist + "px");
-        heart.style.animation = `explode 0.9s forwards cubic-bezier(0.55,1,0.63,0.99)`;
-        document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 900);
-      }
-    }
-
-    // Взрыв по нажатию на других кнопках
-    document.getElementById("openBtn2").addEventListener("click", function() {
-      explodeHearts(this);
-      next(2);
-    });
-    document.getElementById("openBtn3").addEventListener("click", function() {
-      explodeHearts(this);
-      next(3);
-    });
-
-    // Анимация появления текста на последнем экране
-    function showLoveText() {
-      const el = document.getElementById("loveText");
-      el.style.opacity = 0;
-      let fullText = el.innerHTML;
-      el.innerHTML = "";
-      let i = 0, print = "";
-      (function printLetter() {
-        if (i < fullText.length) {
-          print += fullText[i];
-          el.innerHTML = print;
-          el.style.opacity = 1;
-          i++;
-          setTimeout(printLetter, fullText[i - 1] === '<' ? 5 : 26);
+    <script>
+        // Сердечки красивыми волнами
+        const heartsArray = ["💗", "💖", "💘", "💝", "❤️", "💕", "💞", "💓"];
+        function bgHeart() {
+            const h = document.createElement("div");
+            h.className = "bg-heart";
+            h.innerHTML = heartsArray[Math.floor(Math.random() * heartsArray.length)];
+            h.style.left = Math.random() * 100 + "vw";
+            h.style.animationDuration = (5 + Math.random() * 5) + "s";
+            h.style.fontSize = (17 + Math.random() * 22) + "px";
+            h.style.opacity = 0.43 + Math.random() * 0.54;
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 10000);
         }
-      })();
-    }
-    // Взрыв сердечек (animation)
-    document.head.insertAdjacentHTML('beforeend', `<style>
-      @keyframes explode {
-        from {
-          opacity: 1;
-          transform: translate(0, 0) scale(1);
+        setInterval(bgHeart, 420);
+
+        // Переход между экранами
+        function next(n) {
+            document.getElementById("s" + n).classList.add("hidden");
+            document.getElementById("s" + (n + 1)).classList.remove("hidden");
+            if (n + 1 === 4) showLoveText();
         }
-        to {
-          opacity: 0;
-          transform: translate(var(--x,0), var(--y,0)) scale(1.8);
+
+        // Кнопка "не-а 😈"
+        const noBtn = document.getElementById("noBtn");
+        noBtn.addEventListener("mouseover", () => {
+            const w = noBtn.offsetWidth, h = noBtn.offsetHeight;
+            const maxX = window.innerWidth - w - 14, maxY = window.innerHeight - h - 14;
+            const x = Math.random() * maxX;
+            const y = Math.random() * maxY;
+            noBtn.style.position = "fixed";
+            noBtn.style.left = x + "px";
+            noBtn.style.top = y + "px";
+        });
+
+        // Взрыв сердечек при клике по кнопке
+        function explodeHearts(el) {
+            const rect = el.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement("div");
+                heart.className = "bg-heart";
+                heart.innerHTML = heartsArray[Math.floor(Math.random() * heartsArray.length)];
+                heart.style.left = cx + "px";
+                heart.style.top = cy + "px";
+                const angle = Math.random() * 2 * Math.PI;
+                const dist = 64 + Math.random() * 120;
+                heart.style.setProperty("--x", Math.cos(angle) * dist + "px");
+                heart.style.setProperty("--y", Math.sin(angle) * dist + "px");
+                heart.style.animation = "explode 1s forwards";
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 900);
+            }
         }
-      }
-    </style>`);
-  </script>
+        document.getElementById("openBtn1").addEventListener("click", function(e) {
+            explodeHearts(this);
+            next(1);
+        });
+        document.getElementById("openBtn2").addEventListener("click", function() {
+            explodeHearts(this);
+            next(2);
+        });
+        document.getElementById("openBtn3").addEventListener("click", function() {
+            explodeHearts(this);
+            next(3);
+        });
+
+        function showLoveText() {
+            const el = document.getElementById("loveText");
+            el.style.opacity = 0;
+            let fullText = el.innerHTML;
+            el.innerHTML = "";
+            let i = 0, print = "";
+            (function printLetter() {
+                if (i < fullText.length) {
+                    print += fullText[i];
+                    el.innerHTML = print;
+                    el.style.opacity = 1;
+                    i++;
+                    setTimeout(printLetter, fullText[i - 1] === '<' ? 5 : 26);
+                }
+            })();
+        }
+
+        // Анимация для взрыва сердечек (добавляем в head только раз!)
+        if(!document.getElementById('explode-style')){
+            let style = document.createElement('style');
+            style.id = 'explode-style';
+            style.innerHTML = "@keyframes explode{from{opacity:1;transform:translate(0,0) scale(1);}to{opacity:0;transform:translate(var(--x,0),var(--y,0)) scale(1.7);}}";
+            document.head.appendChild(style);
+        }
+    </script>
 </body>
 </html>
