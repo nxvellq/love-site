@@ -8,13 +8,6 @@
     <link rel="icon" type="image/png" href="https://media.tenor.com/YHUBvqVV3SQAAAAi/قلب-وردي.gif">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Montserrat', Arial, sans-serif;
-        }
-
         body {
             height: 100vh;
             display: flex;
@@ -24,8 +17,6 @@
             overflow: hidden;
             position: relative;
         }
-
-        /* Свечение на фоне */
         body::before, body::after {
             content: "";
             position: absolute;
@@ -48,30 +39,8 @@
             height: 300px;
             background: radial-gradient(circle, #ffb6d9 65%, transparent 100%);
             filter: blur(60px);
-            opacity: 0.30;
+            opacity: 0.3;
         }
-
-        .bg-heart {
-            position: absolute;
-            bottom: -40px;
-            font-size: 20px;
-            animation: floatUp linear infinite;
-            opacity: 0.7;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        @keyframes floatUp {
-            from {
-                transform: translateY(0);
-                opacity: 0.7;
-            }
-            to {
-                transform: translateY(-110vh);
-                opacity: 0;
-            }
-        }
-
         .screen {
             position: absolute;
             display: flex;
@@ -82,12 +51,157 @@
             transition: opacity 0.6s;
             z-index: 2;
         }
-
         .hidden {
             opacity: 0;
             pointer-events: none;
         }
-
+        /* --- ANIMATED ENVELOPE --- */
+        .envelope-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            min-width: 330px;
+            min-height: 260px;
+            height: 260px;
+            position: relative;
+            z-index: 2;
+            background: none;
+        }
+        @media(max-width:420px){
+          .envelope-wrapper{min-width: unset; width: 96vw;}
+        }
+        .envelope {
+            position: relative;
+            width: 260px;
+            height: 180px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 24px 60px rgba(255, 76, 139, 0.21), 0 2px 12px #ec407a11;
+            cursor: pointer;
+            perspective: 700px;
+            overflow: visible;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            transition: box-shadow 0.25s;
+        }
+        /* Клапан (верх) */
+        .envelope-flap {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 68%;
+            background: #ff4c8b;
+            clip-path: polygon(0 0, 50% 80%, 100% 0);
+            border-radius: 15px 15px 6px 6px;
+            z-index: 2;
+            transition: transform 0.83s cubic-bezier(0.77,0,0.18,1);
+            transform-origin: top center;
+        }
+        .envelope.opened .envelope-flap {
+            transform: rotateX(-79deg);
+        }
+        /* Низ */
+        .envelope-base {
+            position: absolute;
+            top: 15%;
+            left: 0;
+            width: 100%;
+            height: 85%;
+            background: #fff;
+            border-radius: 0 0 16px 16px;
+            z-index: 1;
+            box-shadow: 0 2px 24px 0px rgba(255, 76, 139, 0.09);
+            overflow: visible;
+        }
+        /* Сердечко на жабке */
+        .envelope-heart {
+            position: absolute;
+            left: 50%;
+            top: 3.8%;
+            transform: translate(-50%,0);
+            font-size: 32px;
+            filter: drop-shadow(0 5px 12px #ff4c8b33);
+            z-index: 9;
+            pointer-events: none;
+            transition: opacity 0.34s;
+        }
+        .envelope.opened .envelope-heart { opacity: 0; }
+        /* Кнопка появляется при открытии */
+        .envelope-button {
+            opacity: 0;
+            transform: translateY(28px) scale(0.96);
+            transition: opacity 0.5s 0.29s, transform 0.4s 0.29s;
+            pointer-events: none;
+        }
+        .envelope.opened .envelope-button {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+        /* Надпись-инструкция */
+        .envelope-note {
+            position: absolute;
+            top: 44%;
+            left: 50%;
+            transform: translate(-50%,0);
+            font-size: 20px;
+            color: #ff4c8b;
+            font-family: 'Pacifico', cursive;
+            opacity: 0.8;
+            text-shadow: 0 0 9px #fff0;
+            transition: opacity 0.25s;
+            pointer-events: none;
+            user-select: none;
+            z-index: 3;
+        }
+        .envelope.opened .envelope-note {
+            opacity: 0;
+        }
+        /* Кнопка */
+        .envelope-button button {
+            padding: 13px 34px;
+            border: none;
+            border-radius: 45px;
+            cursor: pointer;
+            font-size: 16px;
+            background: #ff4c8b linear-gradient(90deg, #ff4c8b 85%, #ff90c2 100%);
+            color: white;
+            margin-top: 33px;
+            margin-bottom: 20px;
+            font-family: 'Montserrat', Arial, sans-serif;
+            box-shadow: 0 4px 16px rgba(255, 76, 139, 0.14);
+            transition: transform 0.21s;
+        }
+        .envelope-button button:hover {transform:scale(1.10); animation:heartbeat 0.8s;}
+        @keyframes heartbeat {
+            0%,100%{transform:scale(1);}
+            22%{transform:scale(1.18);}
+            47%{transform:scale(0.97);}
+            67%{transform:scale(1.10);}
+        }
+        /* --- END ENVELOPE --- */
+        /* Остальной стиль карточек и фоновых сердец — как прежде! */
+        .bg-heart {
+            position: absolute;
+            bottom: -40px;
+            font-size: 20px;
+            animation: floatUp linear infinite;
+            opacity: 0.7;
+            pointer-events: none;
+            z-index: 1;
+        }
+        @keyframes floatUp {
+            from {
+                transform: translateY(0);
+                opacity: 0.7;
+            }
+            to {
+                transform: translateY(-110vh);
+                opacity: 0;
+            }
+        }
         .card {
             background: white;
             padding: 44px 30px 38px 30px;
@@ -101,160 +215,33 @@
             transform: translateY(35px) scale(0.97);
             animation: fade-in-card 1.1s 0.15s forwards;
         }
-        /* При каждом показе экрана .card появляется плавно */
-        .screen:not(.hidden) .card {
-            animation: fade-in-card 1.1s 0.15s forwards;
-        }
+        .screen:not(.hidden) .card {animation: fade-in-card 1.1s 0.15s forwards;}
         @keyframes fade-in-card {
             from {opacity: 0; transform: translateY(35px) scale(0.97);}
             to {opacity: 1; transform: translateY(0) scale(1);}
         }
-
-        .envelope {
-            width: 260px;
-            height: 180px;
-            background: white;
-            border-radius: 14px;
-            box-shadow: 0 15px 40px rgba(255, 76, 139, 0.16);
-            position: relative;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            padding-bottom: 17px;
-            transition: box-shadow 0.3s;
-        }
-        .envelope:hover {
-            box-shadow: 0 24px 65px rgba(255, 76, 139, 0.30);
-        }
-        .envelope::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #ff4c8b;
-            clip-path: polygon(0 0, 50% 60%, 100% 0);
-            border-radius: 12px 12px 0 0;
-            z-index: 1;
-        }
-        .envelope span {
-            position: relative;
-            z-index: 2;
-            font-weight: bold;
-            padding: 0px 10px;
-            border: none;
-            cursor: pointer;
-            background-color: white;
-        }
-
-        button {
-            padding: 13px 32px;
-            border: none;
-            border-radius: 45px;
-            cursor: pointer;
-            font-size: 15px;
-            margin: 12px;
-            transition: 0.24s transform, 0.13s box-shadow;
-            box-shadow: 0 2px 8px rgba(255, 76, 139, 0.10);
-            font-family: 'Montserrat', Arial, sans-serif;
-        }
-        .pink {
-            background: #ff4c8b linear-gradient(92deg, #ff4c8b 85%, #ff90c2 100%);
-            color: white;
-            box-shadow: 0 3px 10px rgba(255,76,139,0.13);
-        }
+        /* etc... остальной твой CSS можешь оставить без изменений */
         .gray {
             background: #f5f2f7;
             color: #9e4e74;
         }
-        button:hover {
-            transform: scale(1.08);
-        }
-        button.pink:hover, .envelope:active span>button {
-            animation: heartbeat 0.7s;
-        }
-        @keyframes heartbeat {
-            0%, 100% {transform: scale(1);}
-            14% {transform: scale(1.16);}
-            28% {transform: scale(1);}
-            42% {transform: scale(1.12);}
-            70% {transform: scale(1);}
-        }
-
-        /* Декор-шрифт для заголовков */
-        h2 {
-            font-family: 'Pacifico', cursive;
-            color: #ff4c8b;
-            font-weight: normal;
-            font-size: 2.1em;
-            letter-spacing: 1px;
-            margin-bottom: 16px;
-            margin-top: 2px;
-            text-shadow: 0 1px 0 #fff, 0 2px 10px #ffb6d9a2;
-        }
-
-        .circle {
-            width: 170px;
-            height: 170px;
-            background: #ffe6f0;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 23px auto 26px auto;
-            overflow: hidden;
-            box-shadow: 0 0 64px 16px #ffd6e7, 0 7px 25px rgba(255, 76, 139, 0.09);
-            position: relative;
-        }
-
-        .circle img {
-            width: 130px;
-            filter: drop-shadow(0 4px 10px #fff4fa);
-        }
-
-        .explosion {
-            position: absolute;
-            font-size: 20px;
-            pointer-events: none;
-            animation: explode 1s forwards cubic-bezier(0.55,1,0.63,0.99);
-            z-index: 99;
-        }
-
-        @keyframes explode {
-            from {
-                transform: translate(0, 0) scale(1);
-                opacity: 1;
-            }
-            to {
-                transform: translate(var(--x), var(--y)) scale(1.8);
-                opacity: 0;
-            }
-        }
-
-        /* Анимация появления текста на последнем экране */
-        .fadein-text { opacity: 0; transition: opacity 1.1s; }
-
-        /* Responsive (адаптивное) */
-        @media (max-width: 560px) {
-            .card, .circle { min-width: unset; width: 98vw; padding: 16px 0 12px 0; }
-            .card { padding: 25px 4vw 22px 4vw; }
-            .circle { width: 120px; height: 120px; }
-            .circle img { width: 89px; }
-            .envelope { width: 90vw; min-width: 198px; max-width: 310px; }
-        }
+        /* ... (остальные стили) ... */
     </style>
 </head>
-
 <body>
-    <!-- Первый экран -->
+    <!-- Первый экран: анимированная валентинка -->
     <div class="screen" id="s1">
-        <div class="envelope" onclick="next(1)">
-            <span class="pink"><button class="pink" id="openBtn1">Далее 💖</button></span>
+        <div class="envelope-wrapper">
+            <div class="envelope" id="envelope">
+                <div class="envelope-flap"></div>
+                <div class="envelope-base"></div>
+                <div class="envelope-heart">💌</div>
+                <div class="envelope-note">Нажми, чтобы открыть</div>
+                <div class="envelope-button"><button class="pink" id="openBtn1">Далее 💖</button></div>
+            </div>
         </div>
     </div>
-    <!-- Второй экран -->
+    <!-- Второй экран (остальной код можешь не менять, но для примера — ниже оставляю!) -->
     <div class="screen hidden" id="s2">
         <div class="card">
             <h2>Хочешь прочитать?? 💖</h2>
@@ -265,7 +252,6 @@
             <button class="gray" id="noBtn">Не-а 😈</button>
         </div>
     </div>
-    <!-- Третий экран -->
     <div class="screen hidden" id="s3">
         <div class="card">
             <h2>❤️ С Днём Святого Валентина! ❤️</h2>
@@ -275,7 +261,6 @@
             <button class="pink" id="openBtn3" onclick="next(3)">Далее!! ^w^</button>
         </div>
     </div>
-    <!-- Последний экран -->
     <div class="screen hidden" id="s4">
         <div class="card">
             <h2>Я тебя люблю 💖</h2>
@@ -287,8 +272,26 @@
             </p>
         </div>
     </div>
-
     <script>
+        // Анимированное открытие конверта + переход по кнопке
+        const envelope = document.getElementById('envelope');
+        const envelopeBtn = document.getElementById('openBtn1');
+        let isEnvelopeOpened = false;
+
+        envelope.addEventListener('click', function(){
+            if(isEnvelopeOpened) return;
+            envelope.classList.add('opened');
+            isEnvelopeOpened = true;
+            // Можно сделать автопрокрутку к кнопке или проиграть звук открытия
+        });
+
+        envelopeBtn.addEventListener('click', function(e){
+            e.stopPropagation();
+            explodeHearts(this);
+            setTimeout(()=>next(1), 420); // Маленькая задержка, чтобы сердечки успели вылететь :)
+        });
+
+        // Остальная логика — как было!
         // Сердечки разных стилей
         const heartsArray = ["💗", "💖", "💘", "💝", "❤️", "💕", "💞", "💓"];
         function bgHeart() {
@@ -308,7 +311,7 @@
         function next(n) {
             document.getElementById("s" + n).classList.add("hidden");
             document.getElementById("s" + (n + 1)).classList.remove("hidden");
-            if (n + 1 === 4) showLoveText(); // На финальном экране — анимация текста
+            if (n + 1 === 4) showLoveText();
         }
 
         // Кнопка "не-а 😈"
@@ -342,10 +345,6 @@
                 setTimeout(() => heart.remove(), 1000);
             }
         }
-        document.getElementById("openBtn1").addEventListener("click", function() {
-            explodeHearts(this);
-            next(1);
-        });
         document.getElementById("openBtn2").addEventListener("click", function() {
             explodeHearts(this);
             next(2);
